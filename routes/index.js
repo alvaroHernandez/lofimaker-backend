@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/gifs/search', function(req, res, next) {
-  giphyClient.search(req.query.q).then((response) =>{
+  giphyClient.search(req.query.q,req.query.limit || 42 ).then((response) =>{
     return res.json(response);
   })
 });
