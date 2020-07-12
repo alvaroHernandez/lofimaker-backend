@@ -1,0 +1,8 @@
+{
+  "name": "lofimaker-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/alvaroHernandez/lofimaker-backend",
+  "author": "alvaroHernandez",
+  "license": "MIT"
+}
