@@ -8,13 +8,13 @@ router.get('/', function(req, res, next) {
   return res.json({});
 });
 
-router.get('/gifs/search', function(req, res, next) {
+router.get('/gif/search', function(req, res, next) {
   giphyClient.search(req.query.q,req.query.limit || 42 ).then((response) =>{
     return res.json(response);
   })
 });
 
-router.get('/sounds/search', function(req, res, next) {
+router.get('/sound/search', function(req, res, next) {
   freeSoundClient.search(req.query.q).then((response) =>{
     return res.json(response);
   })
