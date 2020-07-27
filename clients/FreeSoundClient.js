@@ -7,33 +7,25 @@ module.exports = class FreeSoundClient {
     freeSound.setToken(process.env.FREE_SOUND_API_KEY);
   }
 
-  async composeTrackInfo(id) {
-    const getSound = a => new Promise((r, e) => freeSound.getSound(a, r, e));
+  composeTrackInfo(trackInfo) {
     try {
-      const json = JSON.parse(await getSound(id));
       return {
-        id: json.id,
-        title: json.description.substring(0, 25) + '...',
-        duration: json.duration * 1000,
-        stream_url: json.previews['preview-hq-mp3'],
-        artwork_url: json.images.waveform_m,
+        id: trackInfo.id,
+        title: trackInfo.name,
+        duration: trackInfo.duration * 1000,
+        stream_url: trackInfo.previews['preview-hq-mp3'],
+        artwork_url: trackInfo.images.waveform_m,
       };
     } catch (e) {
       console.log(e);
     }
   }
-
-  search(query) {
-    return fetch(
-      `https://freesound.org/apiv2/search/text/?token=${process.env.FREE_SOUND_API_KEY}&query=${query}`,
-    ).then(async response => {
+  search(queryString) {
+    const freeSoundQuery = `https://freesound.org/apiv2/search/text/?fields=id,description,name,duration,previews,images&token=${process.env.FREE_SOUND_API_KEY}&${queryString}`;
+    return fetch(freeSoundQuery).then(async response => {
       if (response.ok) {
         const json = await response.json();
-        return (
-          await Promise.all(
-            json.results.map(async r => this.composeTrackInfo(r.id)),
-          )
-        ).filter(e => e !== undefined);
+        return json.results.map(r => this.composeTrackInfo(r));
       }
     });
   }

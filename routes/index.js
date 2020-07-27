@@ -15,7 +15,9 @@ router.get('/gif/search', function(req, res, next) {
 });
 
 router.get('/sound/search', function(req, res, next) {
-  freeSoundClient.search(req.query.q).then((response) =>{
+  req.query.query = req.query.q;
+  const queryString = Object.entries(req.query).map(([key,value]) => `${key}=${value}`).join('&');
+  freeSoundClient.search(queryString).then((response) =>{
     return res.json(response);
   })
 });
