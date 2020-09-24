@@ -13,7 +13,8 @@ module.exports = class FreeSoundClient {
         id: trackInfo.id,
         title: trackInfo.name,
         duration: trackInfo.duration * 1000,
-        stream_url: trackInfo.previews['preview-hq-mp3'],
+        stream_url: trackInfo.previews['preview-lq-mp3'],
+        stream_url_high_quality: trackInfo.previews['preview-hq-mp3'],
         artwork_url: trackInfo.images.waveform_m,
       };
     } catch (e) {
