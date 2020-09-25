@@ -23,6 +23,7 @@ const createIndex = () =>{
         console.info(`index ${collectionName} does't exist, creating it...`);
         client.query(q.CreateIndex({
           name: "lofi",
+          votes: 0,
           source: q.Collection("lofi"),
           values: [
             { field: ["ts"], reverse: true },
@@ -41,6 +42,7 @@ const createLoFi = loFi => client.query(
     q.Collection('lofi'),
     {
       data: {
+        votes: 0,
         ...loFi
       },
     },
@@ -66,8 +68,38 @@ const getLoFi = (id) => client.query(
   });
 
 
+const voteLoFi = (id) => client.query(
+  q.Update(
+    q.Ref(
+      q.Collection('lofi'),
+      id
+    ),
+    {
+      data: {
+        votes: q.Add(
+          q.Select(
+            ['data','votes'],
+            q.Get(
+              q.Ref(
+                q.Collection('lofi'),
+                id
+              )
+            )
+          ),
+          1
+        )
+      }
+    }
+  )
+)
+  .then(result => {
+    return result;
+  });
+
+
 module.exports.createLoFi = createLoFi;
 module.exports.createIndex = createIndex;
 module.exports.createCollection = createCollection;
 module.exports.getLoFi = getLoFi;
 module.exports.getAll = getAll;
+module.exports.voteLoFi = voteLoFi;
