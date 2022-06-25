@@ -15,7 +15,7 @@
     "faunadb": "^2.14.2",
     "freesound": "^0.0.4",
     "morgan": "~1.9.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "xss": "^1.0.8"
   }
 }
